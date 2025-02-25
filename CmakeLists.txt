@@ -6,7 +6,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 # 소스 디렉토리
 add_subdirectory(src)
-add_subdirectory(tests)
+add_subdirectory(test)
 
 # 실행 파일 생성
 add_executable(jrdb src/main.cpp)

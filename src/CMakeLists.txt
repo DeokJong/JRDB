@@ -1,8 +1,8 @@
-add_library(storage storage/StorageEngine.cpp)
-add_library(query query/SQLParser.cpp)
-add_library(transaction transaction/TransactionManager.cpp)
-add_library(index index/BTree.cpp)
-add_library(network network/Protocol.cpp network/ServerConnector.cpp)
+add_library(storage storage/StorageEngine.cpp "storage/StorageEngine.cpp" "storage/TableSchema.h")
+add_library(query query/SQLParser.cpp "storage/StorageEngine.cpp" "storage/TableSchema.h")
+add_library(transaction transaction/TransactionManager.cpp "storage/StorageEngine.cpp" "storage/TableSchema.h")
+add_library(index index/BTree.cpp "storage/StorageEngine.cpp" "storage/TableSchema.h")
+add_library(network network/Protocol.cpp network/ServerConnector.cpp "storage/StorageEngine.cpp" "storage/TableSchema.h")
 
 target_include_directories(storage PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/storage)
 target_include_directories(query PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/query)
