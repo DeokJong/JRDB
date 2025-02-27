@@ -3,15 +3,16 @@
 #include <fstream>
 #include <string>
 
-#include "tableSchema/TableSchema.h"
+#include "storage/tableSchema/TableSchema.h"
 
-class SerializeManager {
-  private:
+class SerializeManager
+{
+private:
   template <typename T>
   requires std::is_base_of_v<std::ios, T>
-  static void fileErrorCheck(std::unique_ptr<T>& file, std::string filePath);
-  public:
-      template<typename T>
-      static T loadFile(std::string directory, std::string tableName);
-      
-  };
+  static void fileErrorCheck(std::unique_ptr<T> &file, std::string filePath);
+
+public:
+  static TableSchema loadFile(std::string directory, std::string tableName);
+  static std::unique_ptr<std::fstream> loadFileStream(std::string directory, std::string tableName);
+};

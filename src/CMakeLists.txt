@@ -1,23 +1,8 @@
-﻿add_library(storage 
-    storage/StorageEngine.cpp 
-    storage/tableSchema/TableSchema.cpp
-)
+﻿# 프로젝트 내 모든 cpp 파일을 한 번에 찾아 추가
+file(GLOB_RECURSE ALL_CPP_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp)
 
-add_library(query query/SQLParser.cpp)
-target_link_libraries(query PUBLIC storage)
+# 전체 라이브러리를 하나로 통합 (필요시 개별적으로 분리 가능)
+add_library(jrdb_lib ${ALL_CPP_SOURCES})
 
-add_library(transaction transaction/TransactionManager.cpp)
-target_link_libraries(transaction PUBLIC storage)
-
-add_library(index index/BTree.cpp)
-target_link_libraries(index PUBLIC storage)
-
-add_library(network network/Protocol.cpp network/ServerConnector.cpp)
-target_link_libraries(network PUBLIC storage)
-
-target_include_directories(storage PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/storage)
-
-target_include_directories(query PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/query ${CMAKE_CURRENT_SOURCE_DIR}/storage)
-target_include_directories(transaction PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/transaction ${CMAKE_CURRENT_SOURCE_DIR}/storage)
-target_include_directories(index PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/index ${CMAKE_CURRENT_SOURCE_DIR}/storage)
-target_include_directories(network PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/network ${CMAKE_CURRENT_SOURCE_DIR}/storage)
+# include 디렉터리를 자동으로 추가
+target_include_directories(jrdb_lib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})

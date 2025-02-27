@@ -3,7 +3,7 @@
 #include <fstream>
 #include <sstream>
 
-#include "Util.h"
+#include "util/Util.h"
 
 #ifdef _WIN32
 #include <windows.h>
@@ -72,7 +72,7 @@ void FileException::printStackTrace() const
         std::cerr << "\t" << frame << std::endl;
     }
     std::cerr << "----------------------------------" << std::endl;
-    
+
     this->saveLogFile();
 }
 

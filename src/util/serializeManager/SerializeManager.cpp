@@ -2,27 +2,27 @@
 
 #include <memory>
 
-#include "FileNotFoundException.h"
-#include "FileReadException.h"
+#include "exception/fileException/FileNotFoundException.h"
+#include "exception/fileException/FileReadException.h"
 
 template <typename T>
 requires std::is_base_of_v<std::ios, T>
 void SerializeManager::fileErrorCheck(std::unique_ptr<T>& file, std::string filePath)
 {
+  std::filesystem::path path(filePath);
     if (!file->is_open()) {
-        throw FileNotFoundException(filePath);
+        throw FileNotFoundException(std::filesystem::absolute(path));
     }
     if (file->fail()) {
-        throw FileReadException(filePath);
+        throw FileReadException(std::filesystem::absolute(path));
     }
 }
 
-template <>
-TableSchema SerializeManager::loadFile<TableSchema>(std::string directory, std::string tableName)
+TableSchema SerializeManager::loadFile(std::string directory, std::string tableName)
 {
   std::string filePath = directory + "/" + tableName + ".schema";
-
-  auto file = std::make_unique<std::ifstream>(filePath);
+  std::filesystem::path path(filePath);
+  auto file = std::make_unique<std::ifstream>(std::filesystem::absolute(path));
 
   fileErrorCheck(file, filePath);
 
@@ -52,8 +52,7 @@ TableSchema SerializeManager::loadFile<TableSchema>(std::string directory, std::
 
 }
 
-template <>
-std::unique_ptr<std::fstream> SerializeManager::loadFile<std::unique_ptr<std::fstream>>(std::string directory, std::string tableName)
+std::unique_ptr<std::fstream> SerializeManager::loadFileStream(std::string directory, std::string tableName)
 {
   std::string filePath = directory + "/" + tableName + ".db";
 
