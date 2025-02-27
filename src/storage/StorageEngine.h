@@ -6,6 +6,7 @@
 #include <string>
 #include <fstream>
 #include <unordered_map>
+#include <algorithm>
 
 #include "tableSchema/TableSchema.h"
 
